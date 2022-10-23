@@ -4,7 +4,7 @@ exports.static = (req,res)=>{
     res.json(users)
 }
 exports.apiinfo=(req,res)=>{
- res.json({information:"Developed by SD husain 2022 API is working"})
+ res.json({status:200,information:"Developed by SD husain 2022 API is working"})
 }
 exports.alluser=(req,res)=>{
     signupdata.find().then((result)=>{
@@ -16,12 +16,11 @@ exports.alluser=(req,res)=>{
 exports.login=async(req,res)=>{
     const {email,password}=req.body
     const getuser = await  signupdata.findOne({email:email,password:password})
-   
     if(getuser){
-        return res.json({status:200,login:"ok",message:"ok buddy",user:getuser});
+        return res.json({status:200,login:true,message:"You are successfully logged in",user:getuser});
     }
     else{
-        res.json({error:"Invalid credentials. Please try again."})
+        res.json({status:404,login:false,message:"Invalid credentials. Please try again."})
     }
 }
 exports.register =(req,res)=>{
@@ -34,7 +33,7 @@ exports.register =(req,res)=>{
    })
      savedata.save()
      .then(data=>{
-       res.json({alert:"Congratulations, your account has been successfully created",userdata:data})
+       res.json({status:201,alert:"Congratulations, your account has been successfully created",userdata:data})
    })
    .catch(error =>{
        res.json(error)
