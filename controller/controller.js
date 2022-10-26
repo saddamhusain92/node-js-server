@@ -24,7 +24,7 @@ exports.login=async(req,res)=>{
             "secretkeyappearshere",
             { expiresIn: "1h" }
           );
-        return res.json({status:200,AccessToken:token,login:true,message:"You are successfully logged in",user:getuser});
+        return res.json({status:200,accessToken:token,login:true,message:"You are successfully logged in",user:getuser});
     }
     else{
         res.json({status:404,login:false,message:"Invalid credentials. Please try again."})
