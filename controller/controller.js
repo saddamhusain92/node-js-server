@@ -1,5 +1,6 @@
 const signupdata = require('../models/models')
 const users = require("../users")
+const jwt = require("jsonwebtoken");
 exports.static = (req,res)=>{
     res.json(users)
 }
@@ -16,8 +17,14 @@ exports.alluser=(req,res)=>{
 exports.login=async(req,res)=>{
     const {email,password}=req.body
     const getuser = await  signupdata.findOne({email:email,password:password})
+
     if(getuser){
-        return res.json({status:200,login:true,message:"You are successfully logged in",user:getuser});
+        token = jwt.sign(
+            { userId:getuser._id, email: getuser.email },
+            "secretkeyappearshere",
+            { expiresIn: "1h" }
+          );
+        return res.json({status:200,AccessToken:token,login:true,message:"You are successfully logged in",user:getuser});
     }
     else{
         res.json({status:404,login:false,message:"Invalid credentials. Please try again."})
